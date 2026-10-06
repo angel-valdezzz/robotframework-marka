@@ -1,4 +1,4 @@
-const markaOverlay = function(){
+function markaOverlay(){
 // Every browser context owns its annotations. No original styles are modified.
 const [owner, action, element, options] = arguments;
 const key = '__marka_' + owner;
@@ -22,7 +22,7 @@ if (!state && action === 'add') {
         const position = entry.options.position;
         let x = position === 'left' ? r.left : position === 'right' ? r.right : r.left+r.width/2;
         let y = position === 'top' ? r.top : position === 'bottom' ? r.bottom : r.top+r.height/2;
-        if (entry.kind === 'note' || entry.kind === 'label') {
+        if (entry.kind === 'note' || entry.kind === 'label' || (entry.kind === 'dot' && position !== 'center')) {
           if (position === 'top') y -= entry.node.offsetHeight/2 + 10;
           if (position === 'bottom') y += entry.node.offsetHeight/2 + 10;
           if (position === 'left') x -= entry.node.offsetWidth/2 + 10;
@@ -80,4 +80,4 @@ if (action === 'clear') {
 }
 return state.entries.size;
 
-};
+}
