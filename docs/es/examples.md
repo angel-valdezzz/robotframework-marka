@@ -4,7 +4,7 @@
 
 Combina un borde azul más grueso, un fondo azul translúcido, puntos numerados y una nota verde. Los elementos conservan su interacción.
 
-```robotframework
+```robotframework hl_lines="8-11 13"
 *** Settings ***
 Library    SeleniumLibrary
 Library    Marka
@@ -22,11 +22,9 @@ Explain Profile Changes
 
 ## Capturar desde Python
 
-![Marka](assets/demo/annotated-profile-es.png)
-
 Usa el mismo navegador abierto por tus pruebas. La captura devuelve una ruta absoluta y limpia las anotaciones por defecto.
 
-```python
+```python hl_lines="6-8"
 from marka import Annotator
 from selenium.webdriver.common.by import By
 
@@ -39,7 +37,9 @@ path = marks.capture("output/profile.png")
 
 ## Captura anotada y procesamiento
 
-Esta captura de la demo usa el mismo overlay.js que distribuye Marka: color y fondo coherentes, puntos separados y notas con color propio.
+![Marka](assets/demo/annotated-profile-es.png)
+
+Esta captura proviene de una fixture local de perfil de cliente, anotada y capturada mediante la API Python Annotator. Muestra el formulario y la explicación del flujo, sin los controles de la demo. La fixture se incluye únicamente para demostrar el caso de uso.
 
 1. Localizar los elementos en la ventana/frame seleccionado.
 2. Crear overlays independientes que siguen la posición del elemento y permiten clics.
@@ -50,7 +50,5 @@ La captura no recorta regiones ni une una página completa. Puedes agregar el PN
 ## Demo interactiva
 
 El idioma sigue la documentación. Elige colores para resaltado, puntos y notas, y ajusta el grosor del borde. Limpia antes de probar otra combinación.
-
-[Abrir demo ↗](assets/demo/index.html){ target="_blank" rel="noopener noreferrer" .md-button }
 
 <iframe src="../assets/demo/index.html" title="Marka demo" style="width:100%;height:1100px;border:0;border-radius:12px" loading="lazy"></iframe>

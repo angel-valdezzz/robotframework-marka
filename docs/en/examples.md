@@ -4,7 +4,7 @@
 
 Combine a thicker blue border, a translucent blue fill, numbered dots and a green note. The elements remain interactive.
 
-```robotframework
+```robotframework hl_lines="8-11 13"
 *** Settings ***
 Library    SeleniumLibrary
 Library    Marka
@@ -24,7 +24,7 @@ Explain Profile Changes
 
 Use the browser already opened by your tests. Capture returns an absolute path and clears annotations by default.
 
-```python
+```python hl_lines="6-8"
 from marka import Annotator
 from selenium.webdriver.common.by import By
 
@@ -39,7 +39,7 @@ path = marks.capture("output/profile.png")
 
 ![Marka](assets/demo/annotated-profile-en.png)
 
-This demo screenshot uses the overlay.js shipped with Marka: matching border/fill, spaced dots and separately colored notes.
+This capture comes from a local customer-profile fixture annotated and captured through the Python Annotator API. It shows the business form and its explanation, without the demo controls. The fixture is supplied only to demonstrate the use case.
 
 1. Locate elements in the selected window/frame.
 2. Create independent overlays that follow the element and allow clicks.
@@ -50,7 +50,5 @@ Capture does not crop regions or stitch a full page. You can attach the PNG to E
 ## Interactive demo
 
 The language follows the documentation. Choose highlight, dot and note colors and adjust border width. Clear before trying another combination.
-
-[Open demo ↗](assets/demo/index.html){ target="_blank" rel="noopener noreferrer" .md-button }
 
 <iframe src="../assets/demo/index.html" title="Marka demo" style="width:100%;height:1100px;border:0;border-radius:12px" loading="lazy"></iframe>

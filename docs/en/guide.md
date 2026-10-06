@@ -10,7 +10,7 @@ Python users can install `robotframework-marka` without the Robot adapter depend
 
 ## Annotate your existing browser
 
-```robotframework
+```robotframework hl_lines="7-10"
 *** Settings ***
 Library    SeleniumLibrary
 Library    Marka
@@ -23,7 +23,7 @@ Show Changes
     Capture Annotated Screenshot    ${OUTPUT DIR}/changes.png
 ```
 
-```python
+```python hl_lines="7-9"
 from marka import Annotator
 from selenium.webdriver.common.by import By
 
