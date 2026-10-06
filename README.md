@@ -12,7 +12,7 @@ Persistent browser highlights, numbered dots, labels and notes for explanatory s
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-[User guide](https://angel-valdezzz.github.io/robotframework-marka/) · [Guía en español](https://angel-valdezzz.github.io/robotframework-marka/es/) · [Keyword reference ↗](https://angel-valdezzz.github.io/robotframework-marka/keywords/index.html) · [Live examples](https://angel-valdezzz.github.io/robotframework-marka/examples/) · [PyPI](https://pypi.org/project/robotframework-marka/)
+[User guide](https://angel-valdezzz.github.io/robotframework-marka/) · [Guía en español](https://angel-valdezzz.github.io/robotframework-marka/es/) · [Keyword reference ↗](https://angel-valdezzz.github.io/robotframework-marka/keywords/index.html) · [PyPI](https://pypi.org/project/robotframework-marka/) · [Live examples](https://angel-valdezzz.github.io/robotframework-marka/examples/)
 
 ## Install
 
