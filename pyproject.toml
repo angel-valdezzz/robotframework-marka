@@ -1,6 +1,6 @@
 [project]
 name = "robotframework-marka"
-version = "0.1.0"
+version = "0.1.1"
 description = "Marka: persistent highlights and screenshot annotations for Selenium."
 authors = [{name = "Angel Gerardo Molina Valdez", email = "angelgerardomolinavaldez@gmail.com"}]
 readme = "README.md"

@@ -37,6 +37,8 @@ path = marks.capture("output/profile.png")
 
 ## Annotated screenshot and processing
 
+![Marka](assets/demo/annotated-profile-en.png)
+
 This demo screenshot uses the overlay.js shipped with Marka: matching border/fill, spaced dots and separately colored notes.
 
 1. Locate elements in the selected window/frame.

@@ -24,6 +24,7 @@ jobs:
       - run: ruff check .
       - run: ruff format --check .
       - run: pytest --cov=marka --cov-report=term-missing
+      - run: python docs/scripts/generate_demo_screenshots.py
       - run: python docs/scripts/build_docs.py
       - run: poetry build
       - run: twine check dist/*

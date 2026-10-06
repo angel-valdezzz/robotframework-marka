@@ -22,6 +22,8 @@ Explain Profile Changes
 
 ## Capturar desde Python
 
+![Marka](assets/demo/annotated-profile-es.png)
+
 Usa el mismo navegador abierto por tus pruebas. La captura devuelve una ruta absoluta y limpia las anotaciones por defecto.
 
 ```python
