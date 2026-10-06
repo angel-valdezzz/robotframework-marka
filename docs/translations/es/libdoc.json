@@ -1,0 +1,42 @@
+{
+  "introduction": {
+    "source_sha256": "8fb6035ce6f2717a43529d6d07650b1143f5ce6d805d7987d92688ec813857ef",
+    "text": "Resalta elementos y agrega anotaciones a capturas con SeleniumLibrary.\n\nImporta ``Library    Marka`` junto a SeleniumLibrary. Las marcas permanecen hasta retirarlas y permiten clics. Cada operación afecta la ventana o iframe seleccionado. Selecciona cada iframe anotado para limpiarlo; navegar o recargar elimina sus marcas.\n\nEjemplo:\n| Highlight Element | id:email | label=Actualizado |\n| Add Dot | id:save | text=1 |\n| Capture Page Screenshot | cambios.png |\n| Clear Annotations |"
+  },
+  "init:__init__": {
+    "source_sha256": "41425d18232240b85e97a6c88adc81e09c9048f1a1666273b5ce64a24a39ddf9",
+    "text": "Usa la instancia de SeleniumLibrary indicada, incluido un alias personalizado."
+  },
+  "keyword:Add Dot": {
+    "source_sha256": "084a3121abfeb8aef61f17476d7b97cfac26b046bb60161539ee4939787ba5fa",
+    "text": "Agrega un punto de color con texto o número opcional. Devuelve su ID."
+  },
+  "keyword:Add Label": {
+    "source_sha256": "3b777fb53102ff42a288b63563bb78b8266aea3f70baba71690189975cd14311",
+    "text": "Agrega una etiqueta breve de texto anclada al elemento."
+  },
+  "keyword:Add Note": {
+    "source_sha256": "8e5ba488e4c30ef6abdb18518c948efb98c823684053d990f9b0f6a4fcb63d07",
+    "text": "Agrega una nota explicativa con indicador anclada al elemento."
+  },
+  "keyword:Capture Annotated Screenshot": {
+    "source_sha256": "cc0edd3e1f3b4a522c0f6bbf03feeaab27741b8bd347819927a7f9f7b8383ace",
+    "text": "Captura el viewport y limpia las marcas por defecto, incluso si falla la captura. Devuelve la ruta PNG absoluta. Guarda el archivo sin duplicar imágenes en el log de Robot."
+  },
+  "keyword:Clear Annotations": {
+    "source_sha256": "4721a1e35cf665b824820e0b4ec538eaaa529fd708180e68fbd0df0ae2fb1852",
+    "text": "Retira todas las marcas, o solo las de un grupo, en el documento seleccionado."
+  },
+  "keyword:Highlight Element": {
+    "source_sha256": "5f9e7b453dca797f9883c4b5f85cd58562efced114246448b2640e3cfab7e366",
+    "text": "Agrega borde persistente y fondo translúcido o etiqueta opcionales. Acepta locators de SeleniumLibrary y objetos WebElement. Grosor y radio se expresan en píxeles CSS. Devuelve un ID para retirar la marca."
+  },
+  "keyword:Highlight Elements": {
+    "source_sha256": "f1deb0ee8e946fc1157277c2a76508fb27f9d7f4fb6b0afd06423cb7633bf314",
+    "text": "Resalta todas las coincidencias del locator. Si no hay ninguna, genera un error."
+  },
+  "keyword:Remove Annotation": {
+    "source_sha256": "f551f9601e31393af5a5fb5a4b8594b5eeeb785f8619a1af95e1038eec69ab4d",
+    "text": "Retira el ID indicado en la ventana o iframe seleccionado."
+  }
+}
