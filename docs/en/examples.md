@@ -1,9 +1,54 @@
 # Visual examples
 
-Try the interactive example below. Open it separately for more space.
+## Explain a flow using colors and steps
 
-[↗ Open demo](assets/demo/index.html){ target="_blank" rel="noopener noreferrer" .md-button }
+Combine a thicker blue border, a translucent blue fill, numbered dots and a green note. The elements remain interactive.
 
-<iframe src="../assets/demo/index.html" title="Marka Visual examples" style="width:100%;height:780px;border:0;border-radius:12px" loading="lazy"></iframe>
+```robotframework
+*** Settings ***
+Library    SeleniumLibrary
+Library    Marka
 
-The repository includes executable Python/Robot examples. Run them with `robot --outputdir output examples/quickstart.robot`.
+*** Test Cases ***
+Explain Profile Changes
+    # Browser is already open on the profile form.
+    Highlight Element    id:email    color=\#2673D9    background=rgba(38,115,217,0.12)    width=5    group=profile
+    Add Dot    id:email    text=1    color=\#2673D9    position=left    group=profile
+    Add Dot    id:save    text=2    color=\#2673D9    position=left    group=profile
+    Add Note    id:save    text=Save profile changes    color=\#567344    position=right    group=profile
+    Click Element    id:save
+    Capture Annotated Screenshot    ${OUTPUT DIR}/profile.png
+```
+
+## Capture from Python
+
+Use the browser already opened by your tests. Capture returns an absolute path and clears annotations by default.
+
+```python
+from marka import Annotator
+from selenium.webdriver.common.by import By
+
+marks = Annotator(driver)  # existing Selenium WebDriver
+email = driver.find_element(By.ID, "email")
+marks.add(email, color="#2673D9", background="rgba(38,115,217,0.12)", width=5)
+marks.add(email, kind="dot", text="1", color="#2673D9", position="left")
+path = marks.capture("output/profile.png")
+```
+
+## Annotated screenshot and processing
+
+This demo screenshot uses the overlay.js shipped with Marka: matching border/fill, spaced dots and separately colored notes.
+
+1. Locate elements in the selected window/frame.
+2. Create independent overlays that follow the element and allow clicks.
+3. Capture the viewport as PNG and clear annotations; use clear=${False} to keep them.
+
+Capture does not crop regions or stitch a full page. You can attach the PNG to Evidence Reporter as evidence.
+
+## Interactive demo
+
+The language follows the documentation. Choose highlight, dot and note colors and adjust border width. Clear before trying another combination.
+
+[Open demo ↗](assets/demo/index.html){ target="_blank" rel="noopener noreferrer" .md-button }
+
+<iframe src="../assets/demo/index.html" title="Marka demo" style="width:100%;height:1100px;border:0;border-radius:12px" loading="lazy"></iframe>

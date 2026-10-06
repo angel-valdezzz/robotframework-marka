@@ -5,29 +5,29 @@
 
 # Marka
 
-Persistent browser highlights, numbered dots, labels and notes for explanatory screenshots.
+Resaltados persistentes, puntos numerados, etiquetas y notas para explicar capturas del navegador.
 
 [![CI](https://github.com/angel-valdezzz/robotframework-marka/actions/workflows/ci.yml/badge.svg)](https://github.com/angel-valdezzz/robotframework-marka/actions/workflows/ci.yml)
 [![PyPI](https://img.shields.io/pypi/v/robotframework-marka)](https://pypi.org/project/robotframework-marka/)
 
-**English** · [Español](README.es.md)
+[English](README.md) · **Español**
 
-[User guide ↗](https://angel-valdezzz.github.io/robotframework-marka/) · [Keyword reference ↗](https://angel-valdezzz.github.io/robotframework-marka/keywords/index.html) · [PyPI ↗](https://pypi.org/project/robotframework-marka/) · [Live examples ↗](https://angel-valdezzz.github.io/robotframework-marka/examples/)
+[Guía de usuario ↗](https://angel-valdezzz.github.io/robotframework-marka/es/) · [Referencia de keywords ↗](https://angel-valdezzz.github.io/robotframework-marka/es/keywords/index.html) · [PyPI ↗](https://pypi.org/project/robotframework-marka/) · [Ejemplos visuales ↗](https://angel-valdezzz.github.io/robotframework-marka/es/examples/)
 
 
 ![Python](https://img.shields.io/pypi/pyversions/robotframework-marka?logo=python)
 ![Robot Framework](https://img.shields.io/badge/Robot_Framework-compatible-00A6A6?logo=robotframework)
 [![License](https://img.shields.io/github/license/angel-valdezzz/robotframework-marka)](LICENSE)
 
-## Install
+## Instalación
 
 ```bash
 pip install "robotframework-marka[robot]"
 ```
 
-Python users can install `robotframework-marka` without the Robot adapter dependencies.
+En Python puedes instalar `robotframework-marka` sin las dependencias del adaptador Robot.
 
-## Annotate your existing browser
+## Anotar en tu navegador existente
 
 ```robotframework
 *** Settings ***
@@ -46,15 +46,15 @@ Show Changes
 from marka import Annotator
 from selenium.webdriver.common.by import By
 
-# driver is your existing Selenium WebDriver.
+# driver es tu WebDriver de Selenium existente.
 marks = Annotator(driver)
 email = driver.find_element(By.ID, "email")
 marks.add(email, color="coral", background="rgba(240,100,69,0.12)")
 marks.add(email, kind="dot", text="1", color="#FFBF47", position="left")
-marks.capture("output/changes.png")  # clears marks by default
+marks.capture("output/changes.png")  # limpia las anotaciones por defecto
 ```
 
 
-## Contributing
+## Contribuir
 
-See [CONTRIBUTING.md](CONTRIBUTING.md), [CHANGELOG.md](CHANGELOG.md), and the [development guide ↗](https://angel-valdezzz.github.io/robotframework-marka/development/).
+Consulta [CONTRIBUTING.md](CONTRIBUTING.md), [CHANGELOG.md](CHANGELOG.md) y la [guía de desarrollo ↗](https://angel-valdezzz.github.io/robotframework-marka/es/development/).
