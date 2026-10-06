@@ -12,7 +12,7 @@ Persistent browser highlights, numbered dots, labels and notes for explanatory s
 
 **English** · [Español](README.es.md)
 
-[User guide ↗](https://angel-valdezzz.github.io/robotframework-marka/) · [Keyword reference ↗](https://angel-valdezzz.github.io/robotframework-marka/keywords/index.html) · [PyPI ↗](https://pypi.org/project/robotframework-marka/) · [Live examples ↗](https://angel-valdezzz.github.io/robotframework-marka/examples/)
+[User guide](https://angel-valdezzz.github.io/robotframework-marka/) · [Keyword reference](https://angel-valdezzz.github.io/robotframework-marka/keywords/index.html) · [PyPI](https://pypi.org/project/robotframework-marka/) · [Live examples](https://angel-valdezzz.github.io/robotframework-marka/examples/)
 
 
 ![Python](https://img.shields.io/pypi/pyversions/robotframework-marka?logo=python)
@@ -57,4 +57,4 @@ marks.capture("output/changes.png")  # clears marks by default
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md), [CHANGELOG.md](CHANGELOG.md), and the [development guide ↗](https://angel-valdezzz.github.io/robotframework-marka/development/).
+See [CONTRIBUTING.md](CONTRIBUTING.md), [CHANGELOG.md](CHANGELOG.md), and the [development guide](https://angel-valdezzz.github.io/robotframework-marka/development/).

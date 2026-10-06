@@ -12,7 +12,7 @@ Resaltados persistentes, puntos numerados, etiquetas y notas para explicar captu
 
 [English](README.md) · **Español**
 
-[Guía de usuario ↗](https://angel-valdezzz.github.io/robotframework-marka/es/) · [Referencia de keywords ↗](https://angel-valdezzz.github.io/robotframework-marka/es/keywords/index.html) · [PyPI ↗](https://pypi.org/project/robotframework-marka/) · [Ejemplos visuales ↗](https://angel-valdezzz.github.io/robotframework-marka/es/examples/)
+[Guía de usuario](https://angel-valdezzz.github.io/robotframework-marka/es/) · [Referencia de keywords](https://angel-valdezzz.github.io/robotframework-marka/es/keywords/index.html) · [PyPI](https://pypi.org/project/robotframework-marka/) · [Ejemplos visuales](https://angel-valdezzz.github.io/robotframework-marka/es/examples/)
 
 
 ![Python](https://img.shields.io/pypi/pyversions/robotframework-marka?logo=python)
@@ -57,4 +57,4 @@ marks.capture("output/changes.png")  # limpia las anotaciones por defecto
 
 ## Contribuir
 
-Consulta [CONTRIBUTING.md](CONTRIBUTING.md), [CHANGELOG.md](CHANGELOG.md) y la [guía de desarrollo ↗](https://angel-valdezzz.github.io/robotframework-marka/es/development/).
+Consulta [CONTRIBUTING.md](CONTRIBUTING.md), [CHANGELOG.md](CHANGELOG.md) y la [guía de desarrollo](https://angel-valdezzz.github.io/robotframework-marka/es/development/).
