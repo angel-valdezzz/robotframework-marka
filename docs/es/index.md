@@ -37,11 +37,11 @@ description: Agrega resaltados, puntos numerados y notas a tu navegador Selenium
 
 ```mermaid
 flowchart TD
-    B[Selenium browser] --> H[Highlight Element]
+    B[Navegador Selenium] --> H[Highlight Element]
     H --> N[Add Dot / Add Note]
     N --> C[Capture Annotated Screenshot]
     C --> P[PNG]
-    C --> X[Clear annotations]
+    C --> X[Limpiar anotaciones]
 ```
 
 [Explora capturas reales](examples.md){ data-preview }
