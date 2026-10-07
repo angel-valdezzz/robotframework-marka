@@ -1,0 +1,31 @@
+{% extends "main.html" %}
+{% block tabs %}
+{{ super() }}
+{% set es = config.theme.language == 'es' %}
+<section class="er-hero" aria-labelledby="er-headline" data-er-hero data-lang="{{ config.theme.language }}" data-accent="255,182,150" data-secondary="255,224,154" style="--scene-accent:#ffb696;--scene-secondary:#ffe09a">
+  <canvas class="er-field" aria-hidden="true"></canvas>
+  <div class="er-hero-inner">
+    <div class="er-hero-copy">
+      <div class="er-kicker">PYTHON <span> / </span> ROBOT FRAMEWORK</div>
+      <h1 id="er-headline">{{ 'Señala el detalle.<br><em>Explica el resultado.</em>' if es else 'Show the detail.<br><em>Explain the result.</em>' }}</h1>
+      <p>{{ 'Agrega resaltados, puntos numerados y notas a tu navegador Selenium. Dale a las capturas el contexto que tu equipo necesita.' if es else 'Add highlights, numbered dots and notes to your Selenium browser. Give screenshots the context your team needs.' }}</p>
+      <div class="er-actions">
+        <a class="er-action er-action-primary" href="{{ 'guide/' | url }}">{{ 'Comenzar' if es else 'Get started' }} <span aria-hidden="true">→</span></a>
+        <a class="er-action er-action-secondary" href="{{ 'assets/demo/index.html' | url }}">{{ 'Explorar el ejemplo' if es else 'Explore the example' }} <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="er-facts"><span>Selenium · Annotations · PNG</span><span>{{ 'Abierto y gratuito' if es else 'Open source & free' }}</span></div>
+    </div>
+    <div class="er-report-scene" aria-label="{{ 'Animación ilustrativa con datos ficticios' if es else 'Illustrative animation with fictitious data' }}">
+      <div class="er-scene-caption"><span class="er-live-dot"></span>{{ 'DE LOS DATOS AL RESULTADO' if es else 'FROM INPUT TO INSIGHT' }}</div>
+      <div class="er-preview">
+        <div class="er-scene-title"><img src="{{ 'assets/logo.svg' | url }}" alt=""><strong>Marka</strong></div>
+        <div class="er-preview-body"><div class="er-mark-surface"><label>{{ 'Customer email' if not es else 'Correo del cliente' }}</label><div class="er-mark-input">ana@example.test</div><div class="er-mark-box er-assemble" data-stage="1"></div><div class="er-mark-dot er-assemble" data-stage="2" style="color:#182337;text-align:center;line-height:1rem">1</div><div class="er-mark-label er-assemble" data-stage="3">{{ 'Confirm the updated value' if not es else 'Confirma el valor actualizado' }}</div></div>
+<div class="er-scene-row er-assemble" data-stage="4"><strong>PNG</strong> · {{ 'Annotated screenshot' if not es else 'Captura anotada' }}<br><span class="er-value">✓</span> {{ 'Capture · clear annotations' if not es else 'Captura · limpia anotaciones' }}</div></div>
+      </div>
+      <div class="er-scene-footer"><span>{{ 'Ilustración · datos ficticios' if es else 'Illustration · fictitious data' }}</span><div class="er-animation-controls" hidden><button type="button" data-er-pause aria-pressed="false">{{ 'Pausar' if es else 'Pause' }}</button><button type="button" data-er-replay>{{ 'Repetir' if es else 'Replay' }}</button></div></div>
+    </div>
+  </div>
+  <a class="er-scroll" href="#overview">{{ 'Descubre lo que puedes crear' if es else 'Discover what you can create' }} <span aria-hidden="true">↓</span></a>
+</section>
+{% endblock %}
+{% block content %}<div class="er-home-content">{{ page.content }}</div>{% endblock %}
