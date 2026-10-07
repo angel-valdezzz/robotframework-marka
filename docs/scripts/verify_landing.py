@@ -21,7 +21,7 @@ def main() -> None:
         with sync_playwright() as playwright:
             browser = playwright.chromium.launch(args=["--no-sandbox"])
             for lang in ("en", "es"):
-                for width in (390, 1440):
+                for width in (320, 390, 1440):
                     page = browser.new_page(viewport={"width": width, "height": 1000})
                     errors: list[str] = []
                     page.on("pageerror", lambda error, found=errors: found.append(str(error)))
@@ -45,6 +45,22 @@ def main() -> None:
                         page.locator(".er-assemble.is-visible").count()
                         == page.locator(".er-assemble").count()
                     )
+                    # Remove presentation perspective to compare annotation geometry.
+                    geometry_style = page.add_style_tag(
+                        content=".er-preview {transform:none!important}"
+                    )
+                    field = page.locator(".er-mark-input").bounding_box()
+                    frame = page.locator(".er-mark-box").bounding_box()
+                    dot = page.locator(".er-mark-dot").bounding_box()
+                    note = page.locator(".er-mark-label").bounding_box()
+                    assert frame["x"] < field["x"] and frame["y"] < field["y"]
+                    assert frame["x"] + frame["width"] > field["x"] + field["width"]
+                    assert frame["y"] + frame["height"] > field["y"] + field["height"]
+                    assert dot["x"] - (frame["x"] + frame["width"]) >= 8
+                    assert abs(dot["y"] + dot["height"] / 2 - field["y"] - field["height"] / 2) < 1
+                    assert note["y"] - (frame["y"] + frame["height"]) >= 8
+                    assert note["x"] + note["width"] <= dot["x"]
+                    geometry_style.evaluate("el => el.remove()")
                     page.evaluate("scrollTo(0, 0)")
                     page.wait_for_timeout(400)
                     for scheme in ("default", "slate"):
