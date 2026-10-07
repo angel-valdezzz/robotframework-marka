@@ -46,7 +46,9 @@ def main() -> None:
                         == page.locator(".er-assemble").count()
                     )
                     # Remove presentation perspective to compare annotation geometry.
-                    geometry_style = page.add_style_tag(content=".er-preview {transform:none!important}")
+                    geometry_style = page.add_style_tag(
+                        content=".er-preview {transform:none!important}"
+                    )
                     field = page.locator(".er-mark-input").bounding_box()
                     frame = page.locator(".er-mark-box").bounding_box()
                     dot = page.locator(".er-mark-dot").bounding_box()
@@ -55,9 +57,7 @@ def main() -> None:
                     assert frame["x"] + frame["width"] > field["x"] + field["width"]
                     assert frame["y"] + frame["height"] > field["y"] + field["height"]
                     assert dot["x"] - (frame["x"] + frame["width"]) >= 8
-                    assert abs(
-                        dot["y"] + dot["height"] / 2 - field["y"] - field["height"] / 2
-                    ) < 1
+                    assert abs(dot["y"] + dot["height"] / 2 - field["y"] - field["height"] / 2) < 1
                     assert note["y"] - (frame["y"] + frame["height"]) >= 8
                     assert note["x"] + note["width"] <= dot["x"]
                     geometry_style.evaluate("el => el.remove()")
