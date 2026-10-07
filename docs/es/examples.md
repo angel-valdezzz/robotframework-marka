@@ -1,3 +1,8 @@
+---
+tags:
+  - Uso
+---
+
 # Ejemplos visuales
 
 ## Explicar un flujo con colores y pasos

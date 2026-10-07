@@ -1,3 +1,8 @@
+---
+tags:
+  - Usage
+---
+
 # Visual examples
 
 ## Explain a flow using colors and steps
