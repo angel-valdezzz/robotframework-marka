@@ -83,12 +83,16 @@ body:has([data-er-hero]) .md-header,body:has([data-er-hero]) .md-tabs {backgroun
 .er-terminal {font-family:monospace}
 .er-data-table {width:100%;border-collapse:collapse;font-size:.55rem}.er-data-table td,.er-data-table th {text-align:left;padding:.4rem;border-bottom:1px solid #39425d}
 .er-data-table th {color:var(--scene-accent)}
-.er-mark-surface {position:relative;background:#f4f6fa;color:#222d43;padding:1.3rem;border-radius:.4rem;min-height:9rem;font-size:.6rem}
-.er-mark-surface label {display:block;font-weight:700;margin-bottom:.5rem}
-.er-mark-input {padding:.7rem;border:1px solid #adb4cd;border-radius:.3rem;background:white}
-.er-mark-box {position:absolute;inset:2.7rem .7rem 2rem;border:3px solid var(--scene-accent);border-radius:.4rem}
-.er-mark-dot {position:absolute;right:.1rem;top:2.2rem;width:1.2rem;height:1.2rem;background:var(--scene-accent);border:2px solid white;border-radius:50%;box-shadow:0 0 0 4px #0001}
-.er-mark-label {position:absolute;bottom:.5rem;left:1.3rem;padding:.35rem .55rem;background:#192a3a;color:white;border-radius:.25rem}
+.er-mark-surface {background:#f4f6fa;color:#222d43;padding:1.3rem;border-radius:.4rem;min-height:9rem;font-size:.6rem}
+.er-mark-surface label {display:block;font-weight:700;margin-bottom:.65rem}
+.er-mark-annotations {display:grid;grid-template-columns:minmax(0,1fr) 1.4rem;gap:1rem .8rem;align-items:center}
+.er-mark-target {position:relative;min-width:0}
+.er-mark-input {display:block;box-sizing:border-box;width:100%;min-width:0;padding:.7rem;border:1px solid #adb4cd;border-radius:.3rem;background:white;color:#222d43;font:inherit;line-height:1.5}
+.er-mark-box {position:absolute;inset:-.2rem;border:3px solid var(--scene-accent);border-radius:.45rem;pointer-events:none}
+.er-mark-dot {display:grid;place-items:center;box-sizing:border-box;width:1.4rem;height:1.4rem;background:var(--scene-accent);color:#182337;font-weight:700;line-height:1;border:2px solid white;border-radius:50%;box-shadow:0 0 0 3px #0001}
+.er-mark-label {position:relative;grid-column:1;justify-self:start;max-width:100%;padding:.4rem .6rem;background:#192a3a;color:white;border-radius:.25rem;line-height:1.5;overflow-wrap:anywhere}
+.er-mark-label::before {content:"";position:absolute;bottom:100%;left:.7rem;border:.25rem solid transparent;border-bottom-color:#192a3a}
+.er-hero[data-er-running] .er-mark-box:not(.is-visible),.er-hero[data-er-running] .er-mark-dot:not(.is-visible) {transform:none}
 .er-hero .er-scene-footer button:disabled {opacity:.65;cursor:default}
 @media(max-width:700px){.er-diagram-grid{grid-template-columns:1fr}}
 

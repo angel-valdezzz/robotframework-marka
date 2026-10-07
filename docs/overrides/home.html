@@ -19,7 +19,18 @@
       <div class="er-scene-caption"><span class="er-live-dot"></span>{{ 'DE LOS DATOS AL RESULTADO' if es else 'FROM INPUT TO INSIGHT' }}</div>
       <div class="er-preview">
         <div class="er-scene-title"><img src="{{ 'assets/logo.svg' | url }}" alt=""><strong>Marka</strong></div>
-        <div class="er-preview-body"><div class="er-mark-surface"><label>{{ 'Customer email' if not es else 'Correo del cliente' }}</label><div class="er-mark-input">ana@example.test</div><div class="er-mark-box er-assemble" data-stage="1"></div><div class="er-mark-dot er-assemble" data-stage="2" style="color:#182337;text-align:center;line-height:1rem">1</div><div class="er-mark-label er-assemble" data-stage="3">{{ 'Confirm the updated value' if not es else 'Confirma el valor actualizado' }}</div></div>
+        <div class="er-preview-body">
+          <div class="er-mark-surface">
+            <label for="er-demo-email">{{ 'Customer email' if not es else 'Correo del cliente' }}</label>
+            <div class="er-mark-annotations">
+              <div class="er-mark-target">
+                <input id="er-demo-email" class="er-mark-input" value="ana@example.test" readonly>
+                <div class="er-mark-box er-assemble" data-stage="1" aria-hidden="true"></div>
+              </div>
+              <div class="er-mark-dot er-assemble" data-stage="2" aria-hidden="true">1</div>
+              <div class="er-mark-label er-assemble" data-stage="3">{{ 'Confirm the updated value' if not es else 'Confirma el valor actualizado' }}</div>
+            </div>
+          </div>
 <div class="er-scene-row er-assemble" data-stage="4"><strong>PNG</strong> · {{ 'Annotated screenshot' if not es else 'Captura anotada' }}<br><span class="er-value">✓</span> {{ 'Capture · clear annotations' if not es else 'Captura · limpia anotaciones' }}</div></div>
       </div>
       <div class="er-scene-footer"><span>{{ 'Ilustración · datos ficticios' if es else 'Illustration · fictitious data' }}</span><div class="er-animation-controls" hidden><button type="button" data-er-pause aria-pressed="false">{{ 'Pausar' if es else 'Pause' }}</button><button type="button" data-er-replay>{{ 'Repetir' if es else 'Replay' }}</button></div></div>
