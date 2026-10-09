@@ -81,7 +81,7 @@ def check_documentation(page: Page, base: str) -> None:
     expect(page.locator(".mk-real-example img")).to_be_visible()
     assert page.locator(".mk-real-example img").evaluate("el=>el.complete && el.naturalWidth>0")
     page.screenshot(path=str(ROOT / "build/landing-checks/es-real-example.png"))
-    page.locator(".mk-real-example a").click()
+    page.locator('.mk-real-example a[href$="examples/"]').click()
     page.wait_for_url("**/es/examples/")
     expect(page.locator("[data-mk-hero]")).to_have_count(0)
     page.locator(".md-select button").click()
