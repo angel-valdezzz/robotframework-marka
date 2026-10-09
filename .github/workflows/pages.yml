@@ -5,6 +5,8 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+env:
+  SE_AVOID_STATS: "true"
 concurrency:
   group: pages
   cancel-in-progress: true
