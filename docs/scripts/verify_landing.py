@@ -2,9 +2,11 @@
 
 import json
 from functools import partial
+from hashlib import sha256
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from threading import Thread
+from urllib.parse import parse_qs, urlsplit
 
 from playwright.sync_api import Page, expect, sync_playwright
 
@@ -91,6 +93,48 @@ def check_documentation(page: Page, base: str) -> None:
     expect(page.locator("body")).to_have_attribute("data-md-color-scheme", "slate")
 
 
+def check_cached_entry(browser, base: str) -> None:
+    """An existing visitor must not reuse the previous landing's asset URLs."""
+    assets = (
+        "assets/stylesheets/landing.css",
+        "assets/stylesheets/visual.css",
+        "assets/landing.js",
+    )
+    versions = {
+        path: sha256((ROOT / "docs" / path).read_bytes()).hexdigest()[:16] for path in assets
+    }
+    for language in ("", "es/"):
+        page = browser.new_page(viewport={"width": 1440, "height": 1024})
+        seen = set()
+
+        def cached_asset(route):
+            url = urlsplit(route.request.url)
+            path = next((path for path in assets if url.path.endswith("/" + path)), None)
+            if path is None:
+                route.continue_()
+            elif parse_qs(url.query).get("content") == [versions[path]]:
+                seen.add(path)
+                route.continue_()
+            else:
+                # Simulate the old landing cached under the unversioned URL.
+                route.fulfill(
+                    content_type="text/css" if path.endswith(".css") else "text/javascript",
+                    body="body{background:white}" if path.endswith(".css") else "void 0;",
+                )
+
+        page.route("**/assets/**", cached_asset)
+        page.goto(base + language)
+        expect(page.locator("[data-mk-pause]")).to_be_visible()
+        assert seen == set(assets), seen
+        assert page.locator(".mk-hero").evaluate(
+            "el=>getComputedStyle(el).backgroundColor==='rgb(25, 22, 20)'"
+        )
+        page.screenshot(
+            path=str(ROOT / "build/landing-checks" / f"cached-{language[:2] or 'en'}.png")
+        )
+        page.close()
+
+
 def main() -> None:
     server_root = ROOT / "build/docs-server"
     server_root.mkdir(parents=True, exist_ok=True)
@@ -108,6 +152,7 @@ def main() -> None:
     try:
         with sync_playwright() as playwright:
             browser = playwright.chromium.launch(args=["--no-sandbox"])
+            check_cached_entry(browser, base)
             for lang in ("en", "es"):
                 for width, height in (
                     (1440, 1024),
