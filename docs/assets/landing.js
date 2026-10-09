@@ -1,77 +1,137 @@
-/* Progressive enhancement: without JS every stage remains visible. No external assets. */
+/* The annotation follows real page elements. Material remounts it on navigation. */
 (() => {
+  'use strict';
   let dispose = () => {};
   function mount() {
     dispose();
-    const hero = document.querySelector('[data-er-hero]');
+    const hero = document.querySelector('[data-mk-hero]');
+    const search = document.querySelector('.mk-search-trigger');
+    function searchKey(event) {
+      if (event.key === 'Enter' || event.key === ' ') {event.preventDefault(); search.click();}
+    }
+    function syncHeader() {
+      if (hero) return;
+      const animation = selector => document.querySelector(selector)?.getAnimations()
+        .find(item => item.animationName === 'mk-header-flow');
+      const header = animation('.md-header'), tabs = animation('.md-tabs');
+      if (header && tabs && header.currentTime !== null) tabs.currentTime = header.currentTime;
+    }
+    search?.addEventListener('keydown', searchKey);
+    window.addEventListener('resize', syncHeader);
+    syncHeader();
+    const cleanupHeader = () => {
+      search?.removeEventListener('keydown', searchKey);
+      window.removeEventListener('resize', syncHeader);
+    };
+    dispose = cleanupHeader;
     if (!hero) return;
-    const canvas = hero.querySelector('canvas');
-    const ctx = canvas.getContext('2d');
-    const pause = hero.querySelector('[data-er-pause]');
-    const replay = hero.querySelector('[data-er-replay]');
-    const controls = hero.querySelector('.er-animation-controls');
-    const stages = [...hero.querySelectorAll('[data-stage]')];
+    const marker = hero.querySelector('.mk-marker');
+    const targets = [...hero.querySelectorAll('[data-mk-target]')];
+    const pause = hero.querySelector('[data-mk-pause]');
+    const number = hero.querySelector('[data-mk-number]');
+    const label = hero.querySelector('[data-mk-label]');
     const es = hero.dataset.lang === 'es';
-    const motion = matchMedia('(prefers-reduced-motion: reduce)');
-    let paused = motion.matches, visible = true, frame = 0, last = 0, elapsed = 0, width = 0, height = 0;
-    controls.hidden = false;
-    function size() {
-      width = hero.clientWidth; height = hero.clientHeight;
-      const dpr = Math.min(devicePixelRatio || 1, 2);
-      canvas.width = width * dpr; canvas.height = height * dpr;
-      ctx?.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const labels = es ? ['El detalle', 'El mensaje', 'La acción'] : ['The detail', 'The message', 'The action'];
+    const media = matchMedia('(prefers-reduced-motion: reduce)');
+    const hold = 1.5, travel = 2, leg = hold + travel;
+    let elapsed = 0, last = 0, frame = 0, paused = false, visible = true;
+    let boxes = [], active = true;
+    const stopped = () => paused || media.matches;
+
+    function measure() {
+      const h = hero.getBoundingClientRect();
+      boxes = targets.map(target => {
+        const r = target.getBoundingClientRect(), button = target.classList.contains('mk-primary');
+        const pad = innerWidth < 680 ? (button ? 8 : 10) : (button ? 14 : 16);
+        let left = r.left, width = r.width;
+        if (!button) {
+          const range = document.createRange();
+          range.selectNodeContents(target);
+          const text = range.getBoundingClientRect();
+          const spacing = parseFloat(getComputedStyle(target).letterSpacing) || 0;
+          if (text.width > 0) { left = text.left; width = Math.max(0, text.width - spacing); }
+        }
+        return {x: left - h.left - pad, y: r.top - h.top - pad, w: width + pad * 2, h: r.height + pad * 2};
+      });
+      render();
     }
-    function render(time) {
-      const progress = (time % 14000) / 14000;
-      stages.forEach((el, i) => el.classList.toggle('is-visible', motion.matches || progress > .1 + i * .14));
-      if (!ctx || !width || motion.matches) return;
-      ctx.clearRect(0, 0, width, height);
-      // Evidence streams converge into the report. Curves form a quiet, living field.
-      const cx = width * .72, cy = height * .48;
-      for (let i = 0; i < 42; i++) {
-        const spread = i / 41;
-        const drift = Math.sin(time / 8000 + spread * 4) * height * .08;
-        const startY = height * (spread * 1.65 - .3);
-        const endY = cy + (spread - .5) * height * .45;
-        ctx.beginPath();
-        ctx.moveTo(-40, startY);
-        ctx.bezierCurveTo(width * .25, startY + drift, width * .48, cy + (spread - .5) * 70, cx, endY);
-        ctx.bezierCurveTo(width * .9, endY - drift, width * 1.05, height * spread, width + 50, height * (spread * 1.4 - .2));
-        ctx.strokeStyle = i % 3 === 0 ? `rgba(${hero.dataset.secondary},.13)` : `rgba(${hero.dataset.accent},.16)`;
-        ctx.lineWidth = .8; ctx.stroke();
-        const p = (time / 12000 + spread) % 1;
-        const x = width * p;
-        const y = startY * (1-p) + cy * p + Math.sin(p * Math.PI) * drift;
-        ctx.beginPath(); ctx.arc(x, y, 1.25, 0, Math.PI * 2);
-        ctx.fillStyle = i % 3 === 0 ? `rgba(${hero.dataset.secondary},.55)` : `rgba(${hero.dataset.accent},.45)`;ctx.fill();
-      }
-    }
-    function updateControl() {
-      pause.textContent = paused ? (es ? 'Reanudar' : 'Resume') : (es ? 'Pausar' : 'Pause');
-      pause.setAttribute('aria-pressed', String(paused));
-      pause.disabled = motion.matches;
-      pause.title = motion.matches ? (es ? 'Movimiento reducido: vista estática' : 'Reduced motion: static view') : ''; 
+    function render() {
+      if (!boxes.length) return;
+      const position = (elapsed / leg) % targets.length;
+      const from = media.matches ? 0 : Math.floor(position), to = (from + 1) % targets.length;
+      const local = (position - Math.floor(position)) * leg;
+      const mix = media.matches ? 0 : Math.max(0, (local - hold) / travel);
+      const a = boxes[from], b = boxes[to], lerp = (x, y) => x + (y - x) * mix;
+      const ramp = Math.min(1, Math.max(0, Math.min(mix, 1 - mix) / .15));
+      marker.style.transform = `translate3d(${lerp(a.x, b.x)}px,${lerp(a.y, b.y)}px,0)`;
+      marker.style.width = lerp(a.w, b.w) + 'px';
+      marker.style.height = lerp(a.h, b.h) + 'px';
+      marker.style.opacity = String(1 - .65 * ramp * ramp * (3 - 2 * ramp));
+      hero.dataset.mkStage = String(from);
+      hero.dataset.mkPhase = mix > 0 ? 'travel' : 'hold';
+      number.textContent = String(from + 1).padStart(2, '0');
+      label.textContent = mix > 0 ? (es ? 'En tránsito' : 'In transit') : labels[from];
     }
     function tick(now) {
       frame = 0;
-      if (paused || !visible || document.hidden || motion.matches) {last = 0; return;}
-      if (last) elapsed += Math.min(now - last, 80);
-      last = now; render(elapsed); frame = requestAnimationFrame(tick);
+      if (!active || stopped() || !visible || document.hidden) { last = 0; return; }
+      if (last) elapsed += Math.min((now - last) / 1000, .1);
+      last = now;
+      render();
+      frame = requestAnimationFrame(tick);
     }
-    function schedule() {if (!frame && !paused && visible && !document.hidden && !motion.matches) frame = requestAnimationFrame(tick);}
-    function toggle() {paused = !paused; updateControl(); if (paused) {cancelAnimationFrame(frame);frame=0;last=0;} else schedule();}
-    function restart() {elapsed=0;last=0; paused=motion.matches;updateControl();render(motion.matches ? 12000 : 0);schedule();}
-    function preference() {paused=motion.matches;updateControl();if(motion.matches){cancelAnimationFrame(frame);frame=0;ctx?.clearRect(0,0,width,height);stages.forEach(el=>el.classList.add('is-visible'));}else schedule();}
-    function visibility() {last=0;schedule();}
-    const observer = new IntersectionObserver(entries => {visible=entries[0].isIntersecting;last=0;schedule();},{threshold:.05});
-    const resize = new ResizeObserver(() => {size();render(elapsed);});
-    hero.setAttribute('data-er-running','');size();render(paused ? 12000 : 0);updateControl();
-    observer.observe(hero);resize.observe(hero);
-    pause.addEventListener('click',toggle);replay.addEventListener('click',restart);
-    motion.addEventListener('change',preference);document.addEventListener('visibilitychange',visibility);schedule();
-    dispose = () => {cancelAnimationFrame(frame);observer.disconnect();resize.disconnect();pause.removeEventListener('click',toggle);replay.removeEventListener('click',restart);motion.removeEventListener('change',preference);document.removeEventListener('visibilitychange',visibility);};
+    function schedule() {
+      if (active && !frame && !stopped() && visible && !document.hidden) frame = requestAnimationFrame(tick);
+    }
+    function controls() {
+      hero.dataset.mkPaused = String(stopped());
+      pause.textContent = stopped() ? (es ? 'Reanudar' : 'Resume') : (es ? 'Pausar' : 'Pause');
+      pause.setAttribute('aria-pressed', String(stopped()));
+      pause.disabled = media.matches;
+      pause.title = media.matches ? (es ? 'Movimiento reducido: vista estática' : 'Reduced motion: static view') : '';
+    }
+    function toggle() { paused = !paused; controls(); last = 0; schedule(); }
+    function preference() { last = 0; controls(); render(); schedule(); }
+    function visibility() { last = 0; schedule(); }
+    function focusContent(event) {
+      const content = document.getElementById('mk-content');
+      if (!content) return;
+      event.preventDefault();
+      content.focus({preventScroll: true});
+      content.scrollIntoView({behavior: media.matches ? 'auto' : 'smooth'});
+      history.replaceState(null, '', '#overview');
+    }
+    const resize = new ResizeObserver(measure);
+    const intersection = new IntersectionObserver(entries => {
+      visible = entries[0].isIntersecting; last = 0; schedule();
+    }, {threshold: .05});
+    const scrollLinks = [...hero.querySelectorAll('[data-mk-scroll]')];
+    marker.hidden = false;
+    hero.querySelector('.mk-marker-status').hidden = false;
+    pause.hidden = false;
+    resize.observe(hero);
+    targets.forEach(target => resize.observe(target));
+    intersection.observe(hero);
+    pause.addEventListener('click', toggle);
+    media.addEventListener('change', preference);
+    document.addEventListener('visibilitychange', visibility);
+    window.addEventListener('resize', measure);
+    scrollLinks.forEach(link => link.addEventListener('click', focusContent));
+    measure(); controls(); schedule();
+    document.fonts.ready.then(() => {if (active) measure();});
+    dispose = () => {
+      cleanupHeader();
+      active = false;
+      cancelAnimationFrame(frame);
+      resize.disconnect(); intersection.disconnect();
+      pause.removeEventListener('click', toggle);
+      media.removeEventListener('change', preference);
+      document.removeEventListener('visibilitychange', visibility);
+      window.removeEventListener('resize', measure);
+      scrollLinks.forEach(link => link.removeEventListener('click', focusContent));
+    };
   }
   if (typeof document$ !== 'undefined') document$.subscribe(mount);
-  else if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded',mount,{once:true});
+  else if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount, {once: true});
   else mount();
 })();
