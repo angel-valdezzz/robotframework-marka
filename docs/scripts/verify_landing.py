@@ -172,6 +172,9 @@ def main() -> None:
                         styles.append(
                             page.locator("#mk-headline").evaluate("el=>getComputedStyle(el).color")
                         )
+                        assert page.locator(".mk-lead,.mk-secondary").evaluate_all(
+                            "els=>els.every(el=>getComputedStyle(el).color==='rgb(245, 238, 229)')"
+                        )
                         page.screenshot(path=str(output / f"{lang}-{width}-{height}-{scheme}.png"))
                     assert styles[0] == styles[1]
                     measurements.append({"lang": lang, "width": width, "height": height})
